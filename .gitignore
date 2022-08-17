@@ -1,0 +1,11 @@
+*.com
+*.com.template
+
+docs/
+
+redbean.log
+redbean.pid
+
+/js
+/css
+/img
