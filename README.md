@@ -22,5 +22,5 @@ It will then run and open up `localhost:8080` in your default browser.
 
 ## Video Demo
 
-https://user-images.githubusercontent.com/118710/185249639-9e1b1141-24dd-44bd-8925-789de2096502.mp4
+https://user-images.githubusercontent.com/118710/185299406-6ac5fcea-4280-45d5-a8ec-7eda554c9f0f.mp4
 
