@@ -1,13 +1,16 @@
 .PHONY: all clean test
 
-NPD=--no-print-directory
+PROJECT=CalcPad
+REDBEAN=${PROJECT}.com
+REDBEAN_VERSION=2.0.16
+REDBEAN_DL=https://redbean.dev/redbean-${REDBEAN_VERSION}.com
+
 ZIP=zip.com
 ZIP_DL=https://redbean.dev/zip.com
 UNZIP=unzip.com
 UNZIP_DL=https://redbean.dev/unzip.com
-REDBEAN_DL=https://redbean.dev/redbean-2.0.16.com
-REDBEAN=CalcPad.com
-PID=CalcPad.pid
+
+NPD=--no-print-directory
 
 all: add
 
@@ -31,29 +34,29 @@ ls: unzip.com
 	@unzip -vl ./${REDBEAN} | grep -v \
 		'usr/\|.symtab'
 
-log: redbean.log
-	tail -f redbean.log
+log: ${PROJECT}.log
+	tail -f ${PROJECT}.log
 
 start: ${REDBEAN}
 	./${REDBEAN} -vv
 
 start-daemon: ${REDBEAN}
-	@(test ! -f ${PID} && \
-		./${REDBEAN} -vv -d -L redbean.log -P ${PID} && \
-		printf "🦞 started $$(cat ${PID})\n") \
-		|| echo "🦞 already running $$(cat ${PID})"
+	@(test ! -f ${PROJECT}.pid && \
+		./${REDBEAN} -vv -d -L ${PROJECT}.log -P ${PROJECT}.pid && \
+		printf "🦞 started $$(cat ${PROJECT}.pid)\n") \
+		|| echo "🦞 already running $$(cat ${PROJECT}.pid)"
 
 restart-daemon:
-	@(test ! -f ${PID} && \
-		./${REDBEAN} -vv -d -L redbean.log -P ${PID} && \
-		printf "🦞 started $$(cat ${PID})") \
-		|| kill -HUP $$(cat ${PID}) && \
-		printf "🦞 restarted $$(cat ${PID})\n"
+	@(test ! -f ${PROJECT}.pid && \
+		./${REDBEAN} -vv -d -L ${PROJECT}.log -P ${PROJECT}.pid && \
+		printf "🦞 started $$(cat ${PROJECT}.pid)") \
+		|| kill -HUP $$(cat ${PROJECT}.pid) && \
+		printf "🦞 restarted $$(cat ${PROJECT}.pid)\n"
 
-stop-daemon: ${PID}
-	@kill -TERM $$(cat ${PID}) && \
-		printf "🦞 stopped $$(cat ${PID})\n" && \
-		rm ${PID} \
+stop-daemon: ${PROJECT}.pid
+	@kill -TERM $$(cat ${PROJECT}.pid) && \
+		printf "🦞 stopped $$(cat ${PROJECT}.pid)\n" && \
+		rm ${PROJECT}.pid \
 
 clean:
-	rm -f redbean.log ${PID} ${REDBEAN} ${REDBEAN}.template ${ZIP} ${UNZIP}
+	rm -f ${PROJECT}.log ${PROJECT}.pid ${REDBEAN} ${REDBEAN}.template ${ZIP} ${UNZIP}
